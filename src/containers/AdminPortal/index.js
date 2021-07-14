@@ -2,10 +2,18 @@ import React, { useState, useEffect } from "react";
 import AdminPage from "../../components/AdminPage/AdminPage";
 import { getUtil, postUtil } from "../../utils/api/link-building-api";
 import { message } from "antd";
-
+import { useHistory } from "react-router-dom";
 const AdminPortal = () => {
+  const history = useHistory();
   const [categoriesData, setCategoriesData] = useState([]);
   useEffect(() => {
+    if (
+      localStorage.getItem("accessToken") == null ||
+      localStorage.getItem("accessToken") == "" ||
+      localStorage.getItem("accessToken") == undefined
+    ) {
+      history.push("/login");
+    }
     getUtil("Category/GetAllCategories").then((c) => {
       setCategoriesData(c.data);
     });
